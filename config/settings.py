@@ -71,3 +71,5 @@ LLM_MODEL = "gemini-2.5-flash"
 TEMPERATURE = 0.2
 
 MAX_OUTPUT_TOKENS = 1024
+
+GRAPH_MODEL = "gemini-2.5-flash"
