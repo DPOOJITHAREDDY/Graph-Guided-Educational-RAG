@@ -1,0 +1,26 @@
+{
+    "random forest": {
+        "accepted": true,
+        "reason": "Migrated from old cache"
+    },
+    "decision tree": {
+        "accepted": true,
+        "reason": "Migrated from old cache"
+    },
+    "another ensemble technique": {
+        "accepted": false,
+        "reason": "Migrated from old cache"
+    },
+    "multiple decision tree": {
+        "accepted": false,
+        "reason": "Migrated from old cache"
+    },
+    "gradient boosting": {
+        "accepted": true,
+        "reason": "Migrated from old cache"
+    },
+    "forest prediction": {
+        "accepted": false,
+        "reason": "Migrated from old cache"
+    }
+}
