@@ -8,25 +8,20 @@ def main():
     concepts = [
 
         "Random Forest",
-
-        "Decision Trees",
-
-        "Classification And Regression",
-
+        "Decision Tree",
+        "Gradient Boosting",
+        "Support Vector Machine",
+        "Another Ensemble Technique",
+        "Multiple Decision Tree",
+        "Forest Prediction",
         "Model",
-
-        "Figure",
-
         "Print",
-
-        "Bootstrap Sampling"
+        "Feature Importance"
 
     ]
 
     print("=" * 80)
-
-    print("CONCEPT SCORING")
-
+    print("CONCEPT SCORER")
     print("=" * 80)
 
     print()
@@ -41,5 +36,4 @@ def main():
 
 
 if __name__ == "__main__":
-
     main()
