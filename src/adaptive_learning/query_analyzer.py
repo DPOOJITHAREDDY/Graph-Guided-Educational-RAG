@@ -6,6 +6,7 @@ Analyzes student queries for adaptive learning.
 
 import re
 
+from src.adaptive_learning.concept_filter import ConceptFilter
 from src.adaptive_learning.query_analysis import QueryAnalysis
 from src.adaptive_learning.query_concept_extractor import (
     QueryConceptExtractor,
@@ -13,15 +14,11 @@ from src.adaptive_learning.query_concept_extractor import (
 
 
 class QueryAnalyzer:
-    """
-    Converts a raw student question into a structured
-    QueryAnalysis object.
-    """
 
-    def __init__(self, concept_vocabulary):
+    def __init__(self, vocabulary):
 
         self.extractor = QueryConceptExtractor(
-            concept_vocabulary
+            vocabulary
         )
 
         self.intent_patterns = {
@@ -72,10 +69,11 @@ class QueryAnalyzer:
                 "understand",
                 "teach"
             ]
+
         }
 
     @staticmethod
-    def _normalize(query):
+    def normalize(query):
 
         query = query.lower()
 
@@ -87,9 +85,9 @@ class QueryAnalyzer:
 
         return query.strip()
 
-    def _detect_intent(self, query):
+    def detect_intent(self, query):
 
-        normalized = self._normalize(query)
+        normalized = self.normalize(query)
 
         for intent, keywords in self.intent_patterns.items():
 
@@ -102,22 +100,26 @@ class QueryAnalyzer:
         return "general"
 
     @staticmethod
-    def _detect_difficulty(query):
+    def detect_difficulty(query):
 
         query = query.lower()
 
         beginner = {
+
             "easy",
             "simple",
             "basic",
             "beginner"
+
         }
 
         advanced = {
+
             "advanced",
             "research",
             "mathematical",
             "proof"
+
         }
 
         if any(word in query for word in beginner):
@@ -131,32 +133,42 @@ class QueryAnalyzer:
         return "intermediate"
 
     @staticmethod
-    def _requires_graph(intent):
+    def requires_graph(intent):
 
         return intent in {
+
             "compare",
             "explain",
             "application"
+
         }
 
     @staticmethod
-    def _requires_personalization(intent):
+    def requires_personalization(intent):
 
-        return intent != "definition"
+        return intent not in {
+
+            "definition"
+
+        }
 
     def analyze(self, query):
 
         concepts = self.extractor.extract(query)
 
-        intent = self._detect_intent(query)
+        concepts = ConceptFilter.filter(
+            concepts
+        )
 
-        difficulty = self._detect_difficulty(query)
+        intent = self.detect_intent(query)
+
+        difficulty = self.detect_difficulty(query)
 
         return QueryAnalysis(
 
             original_query=query,
 
-            normalized_query=self._normalize(query),
+            normalized_query=self.normalize(query),
 
             intent=intent,
 
@@ -164,11 +176,12 @@ class QueryAnalyzer:
 
             concepts=concepts,
 
-            requires_graph_expansion=self._requires_graph(
+            requires_graph_expansion=self.requires_graph(
                 intent
             ),
 
-            requires_personalization=self._requires_personalization(
+            requires_personalization=self.requires_personalization(
                 intent
             )
+
         )

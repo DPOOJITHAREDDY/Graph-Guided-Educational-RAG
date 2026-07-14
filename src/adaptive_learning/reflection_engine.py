@@ -1,7 +1,7 @@
 """
 reflection_engine.py
 
-Performs self-reflection on the generated educational response.
+Evaluates the quality of an educational response.
 """
 
 import re
@@ -11,89 +11,256 @@ from src.adaptive_learning.reflection_result import ReflectionResult
 
 class ReflectionEngine:
     """
-    Performs lightweight reflection on the generated answer.
-
-    Future versions can replace this with LLM-based reflection
-    without changing the public interface.
+    Evaluates generated educational responses using
+    concept coverage, grounding and confidence.
     """
+
+    UNCERTAINTY_WORDS = {
+        "maybe",
+        "perhaps",
+        "possibly",
+        "might",
+        "probably",
+        "generally",
+        "typically"
+    }
+
+    MISCONCEPTION_PATTERNS = {
+        "i don't know",
+        "not sure",
+        "cannot determine",
+        "insufficient information"
+    }
+
+    @staticmethod
+    def normalize(text):
+
+        text = text.lower()
+
+        text = re.sub(
+            r"[^\w\s]",
+            " ",
+            text
+        )
+
+        text = re.sub(
+            r"\s+",
+            " ",
+            text
+        )
+
+        return text.strip()
 
     def reflect(
         self,
-        answer: str,
+        answer,
         adaptive_context
-    ) -> ReflectionResult:
+    ):
 
-        answer_lower = answer.lower()
+        normalized_answer = self.normalize(
+            answer
+        )
+
+        # --------------------------------------------------
+        # Scores
+        # --------------------------------------------------
 
         understanding_score = 1.0
+        coverage_score = 1.0
+        grounding_score = 1.0
+        difficulty_alignment_score = 1.0
         confidence_score = 1.0
 
-        detected_misconceptions = []
-        weak_concepts = []
+        # --------------------------------------------------
+        # Collections
+        # --------------------------------------------------
+
         strengths = []
 
-        # ----------------------------------------
-        # Check concept coverage
-        # ----------------------------------------
+        weak_concepts = []
+
+        covered_concepts = []
+
+        missing_concepts = []
+
+        detected_misconceptions = []
+
+        unsupported_claims = []
+
+        uncertainty_phrases = []
+
+        recommended_review = []
+
+        next_learning_topics = []
+
+        # --------------------------------------------------
+        # Concept Coverage
+        # --------------------------------------------------
 
         for concept in adaptive_context.query_analysis.concepts:
 
-            if concept.lower() in answer_lower:
+            normalized_concept = self.normalize(
+                concept
+            )
+
+            if normalized_concept in normalized_answer:
 
                 strengths.append(concept)
 
+                covered_concepts.append(
+                    concept
+                )
+
             else:
 
-                weak_concepts.append(concept)
+                weak_concepts.append(
+                    concept
+                )
+
+                missing_concepts.append(
+                    concept
+                )
 
                 understanding_score -= 0.20
 
-        # ----------------------------------------
-        # Detect uncertainty
-        # ----------------------------------------
+                coverage_score -= 0.20
 
-        uncertainty_words = {
+        # --------------------------------------------------
+        # Retrieved Concepts
+        # --------------------------------------------------
 
-            "maybe",
-            "possibly",
-            "might",
-            "probably",
-            "perhaps"
+        retrieved_hits = 0
 
-        }
+        if adaptive_context.retrieved_concepts:
 
-        for word in uncertainty_words:
+            for concept in adaptive_context.retrieved_concepts:
 
-            if re.search(rf"\b{word}\b", answer_lower):
+                normalized = self.normalize(
+                    concept
+                )
 
-                confidence_score -= 0.10
+                if normalized in normalized_answer:
 
-        # ----------------------------------------
-        # Detect explicit misconceptions
-        # ----------------------------------------
+                    retrieved_hits += 1
 
-        misconception_patterns = [
+            grounding_score = min(
 
-            "i don't know",
-            "not sure",
-            "cannot determine",
-            "insufficient information"
+                1.0,
 
-        ]
+                retrieved_hits /
+                max(
+                    1,
+                    len(
+                        adaptive_context.retrieved_concepts
+                    )
+                )
 
-        for pattern in misconception_patterns:
+            )
 
-            if pattern in answer_lower:
+        # --------------------------------------------------
+        # Difficulty Alignment
+        # --------------------------------------------------
 
-                detected_misconceptions.append(pattern)
+        difficulty = (
+            adaptive_context
+            .query_analysis
+            .difficulty
+        )
+
+        word_count = len(answer.split())
+
+        if difficulty == "beginner":
+
+            if word_count > 500:
+
+                difficulty_alignment_score = 0.70
+
+        elif difficulty == "advanced":
+
+            if word_count < 120:
+
+                difficulty_alignment_score = 0.70
+
+        # --------------------------------------------------
+        # Uncertainty
+        # --------------------------------------------------
+
+        for word in self.UNCERTAINTY_WORDS:
+
+            if re.search(
+                rf"\b{word}\b",
+                normalized_answer
+            ):
+
+                uncertainty_phrases.append(
+                    word
+                )
+
+                confidence_score -= 0.05
+
+        # --------------------------------------------------
+        # Misconceptions
+        # --------------------------------------------------
+
+        for pattern in self.MISCONCEPTION_PATTERNS:
+
+            if pattern in normalized_answer:
+
+                detected_misconceptions.append(
+                    pattern
+                )
 
                 confidence_score -= 0.20
+
+        # --------------------------------------------------
+        # Review Recommendations
+        # --------------------------------------------------
+
+        for concept in weak_concepts:
+
+            recommended_review.append(
+                concept
+            )
+
+        for concept in adaptive_context.related_concepts[:5]:
+
+            next_learning_topics.append(
+                concept
+            )
+
+        # --------------------------------------------------
+        # Clamp Scores
+        # --------------------------------------------------
 
         understanding_score = max(
             0.0,
             min(
                 1.0,
                 understanding_score
+            )
+        )
+
+        coverage_score = max(
+            0.0,
+            min(
+                1.0,
+                coverage_score
+            )
+        )
+
+        grounding_score = max(
+            0.0,
+            min(
+                1.0,
+                grounding_score
+            )
+        )
+
+        difficulty_alignment_score = max(
+            0.0,
+            min(
+                1.0,
+                difficulty_alignment_score
             )
         )
 
@@ -105,39 +272,85 @@ class ReflectionEngine:
             )
         )
 
+        overall_score = round(
+
+            (
+                understanding_score
+                + coverage_score
+                + grounding_score
+                + difficulty_alignment_score
+                + confidence_score
+
+            ) / 5,
+
+            4
+
+        )
+
         should_review = (
 
-            understanding_score < 0.60
-
-            or
-
-            confidence_score < 0.60
+            overall_score < 0.70
 
         )
 
-        feedback = (
+        if should_review:
 
-            "Review recommended."
+            feedback = (
+                "Review recommended before progressing."
+            )
 
-            if should_review
+        else:
 
-            else
-
-            "Learning objective achieved."
-
-        )
+            feedback = (
+                "Learning objective achieved."
+            )
 
         return ReflectionResult(
 
-            understanding_score=understanding_score,
+            understanding_score=round(
+                understanding_score,
+                4
+            ),
 
-            confidence_score=confidence_score,
+            confidence_score=round(
+                confidence_score,
+                4
+            ),
 
-            detected_misconceptions=detected_misconceptions,
+            coverage_score=round(
+                coverage_score,
+                4
+            ),
+
+            grounding_score=round(
+                grounding_score,
+                4
+            ),
+
+            difficulty_alignment_score=round(
+                difficulty_alignment_score,
+                4
+            ),
+
+            overall_score=overall_score,
+
+            strengths=strengths,
 
             weak_concepts=weak_concepts,
 
-            strengths=strengths,
+            covered_concepts=covered_concepts,
+
+            missing_concepts=missing_concepts,
+
+            detected_misconceptions=detected_misconceptions,
+
+            unsupported_claims=unsupported_claims,
+
+            uncertainty_phrases=uncertainty_phrases,
+
+            recommended_review=recommended_review,
+
+            next_learning_topics=next_learning_topics,
 
             feedback=feedback,
 

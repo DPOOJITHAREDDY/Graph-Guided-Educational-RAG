@@ -9,6 +9,8 @@ Builds the complete adaptive learning context by combining
 4. Student Knowledge State
 """
 
+import re
+
 from src.adaptive_learning.adaptive_context import AdaptiveContext
 from src.learning.concept_graph import ConceptGraph
 from src.retrieval.retriever import Retriever
@@ -17,8 +19,7 @@ from src.student_model.student_state import StudentState
 
 class AdaptiveContextBuilder:
     """
-    Creates the unified AdaptiveContext object that is passed
-    to the Prompt Constructor.
+    Creates the unified AdaptiveContext object.
     """
 
     def __init__(self):
@@ -29,30 +30,71 @@ class AdaptiveContextBuilder:
 
         self.student_state = StudentState()
 
+    @staticmethod
+    def _extract_concepts(text):
+
+        """
+        Lightweight concept extraction from retrieved text.
+
+        This is intentionally simple because the
+        retrieved concepts are only used for
+        reflection and evaluation.
+        """
+
+        candidates = set()
+
+        pattern = r"\b[A-Z][A-Za-z0-9]*(?:\s+[A-Z][A-Za-z0-9]*)*\b"
+
+        for match in re.findall(pattern, text):
+
+            match = match.strip()
+
+            if len(match) < 3:
+                continue
+
+            candidates.add(match)
+
+        return sorted(candidates)
+
     def build(
         self,
         subject,
         question,
         query_analysis,
     ):
-        """
-        Build the adaptive learning context.
-        """
-
-        # --------------------------------------------------
-        # Load graph
-        # --------------------------------------------------
 
         if self.graph.graph is None:
+
             self.graph.load(subject)
 
         # --------------------------------------------------
-        # Semantic Retrieval
+        # Retrieval
         # --------------------------------------------------
 
         retrieval_results = self.retriever.retrieve(
+
             subject=subject,
+
             query=question
+
+        )
+
+        # --------------------------------------------------
+        # Retrieved Context
+        # --------------------------------------------------
+
+        retrieved_context = "\n\n".join(
+
+            result.document.page_content
+
+            for result in retrieval_results
+
+        )
+
+        retrieved_concepts = self._extract_concepts(
+
+            retrieved_context
+
         )
 
         # --------------------------------------------------
@@ -61,28 +103,25 @@ class AdaptiveContextBuilder:
 
         related_concepts = []
 
-        if query_analysis.requires_graph_expansion:
+        seen = set()
 
-            seen = set()
+        if query_analysis.requires_graph_expansion:
 
             for concept in query_analysis.concepts:
 
-                if not self.graph.has_concept(concept):
+                if concept not in self.graph.graph:
+
                     continue
 
-                neighbors = self.graph.get_learning_neighbors(
-                    concept
-                )
+                for neighbor in self.graph.graph.neighbors(concept):
 
-                for neighbor, weight in neighbors:
+                    if neighbor in seen:
 
-                    if neighbor not in seen:
+                        continue
 
-                        seen.add(neighbor)
+                    seen.add(neighbor)
 
-                        related_concepts.append(
-                            neighbor
-                        )
+                    related_concepts.append(neighbor)
 
         # --------------------------------------------------
         # Student Profiles
@@ -92,19 +131,21 @@ class AdaptiveContextBuilder:
 
         for concept in query_analysis.concepts:
 
-            profile = self.student_state.get_profile(
-                concept
-            )
-
             student_profiles.append(
-                profile
+
+                self.student_state.get_profile(
+
+                    concept
+
+                )
+
             )
 
         # --------------------------------------------------
         # Build Adaptive Context
         # --------------------------------------------------
 
-        context = AdaptiveContext(
+        return AdaptiveContext(
 
             question=question,
 
@@ -112,10 +153,12 @@ class AdaptiveContextBuilder:
 
             retrieval_results=retrieval_results,
 
+            retrieved_context=retrieved_context,
+
+            retrieved_concepts=retrieved_concepts,
+
             related_concepts=related_concepts,
 
             student_profiles=student_profiles
 
         )
-
-        return context
