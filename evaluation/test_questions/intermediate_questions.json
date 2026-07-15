@@ -1,0 +1,190 @@
+[
+    {
+        "id": 1,
+        "question": "Compare Random Forest and Decision Tree.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": ["Random Forest", "Decision Tree"]
+    },
+    {
+        "id": 2,
+        "question": "Compare supervised learning and unsupervised learning.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Supervised Learning",
+            "Unsupervised Learning"
+        ]
+    },
+    {
+        "id": 3,
+        "question": "Explain why Random Forest reduces overfitting.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Random Forest",
+            "Overfitting"
+        ]
+    },
+    {
+        "id": 4,
+        "question": "Explain how Gradient Descent optimizes a model.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Gradient Descent"
+        ]
+    },
+    {
+        "id": 5,
+        "question": "Explain the bias variance tradeoff.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Bias",
+            "Variance"
+        ]
+    },
+    {
+        "id": 6,
+        "question": "Compare Precision and Recall.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Precision",
+            "Recall"
+        ]
+    },
+    {
+        "id": 7,
+        "question": "Explain why feature scaling is important for Support Vector Machine.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Support Vector Machine",
+            "Feature Scaling"
+        ]
+    },
+    {
+        "id": 8,
+        "question": "Explain the working of K-Means clustering.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "K-Means"
+        ]
+    },
+    {
+        "id": 9,
+        "question": "Compare Principal Component Analysis and Linear Discriminant Analysis.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Principal Component Analysis",
+            "Linear Discriminant Analysis"
+        ]
+    },
+    {
+        "id": 10,
+        "question": "Explain why cross validation is used.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Cross Validation"
+        ]
+    },
+    {
+        "id": 11,
+        "question": "Explain Ensemble Learning.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Ensemble Learning"
+        ]
+    },
+    {
+        "id": 12,
+        "question": "Compare Bagging and Boosting.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Bagging",
+            "Boosting"
+        ]
+    },
+    {
+        "id": 13,
+        "question": "Explain ROC Curve and AUC.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "ROC Curve",
+            "AUC"
+        ]
+    },
+    {
+        "id": 14,
+        "question": "Explain how Logistic Regression performs classification.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Logistic Regression"
+        ]
+    },
+    {
+        "id": 15,
+        "question": "Explain Confusion Matrix with an example.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Confusion Matrix"
+        ]
+    },
+    {
+        "id": 16,
+        "question": "Compare L1 Regularization and L2 Regularization.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "L1 Regularization",
+            "L2 Regularization"
+        ]
+    },
+    {
+        "id": 17,
+        "question": "Explain Feature Selection techniques.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Feature Selection"
+        ]
+    },
+    {
+        "id": 18,
+        "question": "Explain why Principal Component Analysis reduces dimensionality.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Principal Component Analysis"
+        ]
+    },
+    {
+        "id": 19,
+        "question": "Compare Regression and Classification.",
+        "expected_intent": "compare",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Regression",
+            "Classification"
+        ]
+    },
+    {
+        "id": 20,
+        "question": "Explain the importance of Train Test Split.",
+        "expected_intent": "explain",
+        "expected_difficulty": "intermediate",
+        "expected_concepts": [
+            "Train Test Split"
+        ]
+    }
+]

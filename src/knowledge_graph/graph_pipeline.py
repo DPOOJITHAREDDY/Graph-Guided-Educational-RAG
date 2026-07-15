@@ -9,7 +9,7 @@ import time
 from config.settings import PROCESSED_DATA_PATH
 
 from src.storage.storage_manager import StorageManager
-from src.knowledge_graph.concept_extractor import ConceptExtractor
+from src.knowledge_graph.concept_pipeline import ConceptPipeline
 from src.knowledge_graph.graph_builder import GraphBuilder
 from src.knowledge_graph.graph_store import GraphStore
 
@@ -18,7 +18,8 @@ class GraphPipeline:
 
     def __init__(self):
 
-        self.extractor = ConceptExtractor()
+        self.extractor = ConceptPipeline()
+
         self.builder = GraphBuilder()
 
     def build(self, subject, save_path):
@@ -44,16 +45,33 @@ class GraphPipeline:
         print("BUILDING KNOWLEDGE GRAPH")
         print("=" * 80)
 
-        for chunk in chunks:
+        for index, chunk in enumerate(chunks, start=1):
 
-            concepts = self.extractor.extract(
+            results = self.extractor.process(
                 chunk.page_content
             )
 
+            concepts = [
+
+                result["concept"]
+
+                for result in results
+
+            ]
+
             self.builder.add_chunk(
+
                 chunk.metadata["chunk_id"],
+
                 concepts
+
             )
+
+            if index % 100 == 0:
+
+                print(
+                    f"Processed {index}/{len(chunks)} chunks..."
+                )
 
         graph = self.builder.get_graph()
 

@@ -1,55 +1,217 @@
 """
 query_concept_extractor.py
 
-Extracts high-quality educational concepts from a user's query
-using the knowledge graph vocabulary.
+Production Query Concept Extractor
+
+Features
+--------
+- Longest phrase matching
+- Acronym support
+- Alias support
+- Hyphen normalization
+- Plural normalization
+- Overlap removal
+- Duplicate removal
 """
 
 import re
 
 
 class QueryConceptExtractor:
-    """
-    Matches graph concepts inside a query.
-
-    Improvements:
-    - Longest phrase matching
-    - Removes overlapping matches
-    - Removes noisy graph nodes
-    - Removes duplicates
-    """
 
     def __init__(self, vocabulary):
 
+        self.aliases = {
+
+            # -------------------------------------------------
+            # Core ML
+            # -------------------------------------------------
+
+            "machine learning": "Machine Learning",
+            "supervised learning": "Supervised Learning",
+            "unsupervised learning": "Unsupervised Learning",
+
+            "classification": "Classification",
+            "regression": "Regression",
+            "clustering": "Clustering",
+
+            "decision tree": "Decision Tree",
+            "random forest": "Random Forest",
+
+            "linear regression": "Linear Regression",
+            "logistic regression": "Logistic Regression",
+
+            "support vector machine": "Support Vector Machine",
+            "svm": "Support Vector Machine",
+
+            "principal component analysis": "Principal Component Analysis",
+            "pca": "Principal Component Analysis",
+
+            "linear discriminant analysis": "Linear Discriminant Analysis",
+            "lda": "Linear Discriminant Analysis",
+
+            "k means": "K Means",
+            "k-means": "K Means",
+            "kmeans": "K Means",
+
+            # -------------------------------------------------
+            # Deep Learning
+            # -------------------------------------------------
+
+            "neural network": "Neural Network",
+            "neural networks": "Neural Network",
+
+            "convolutional neural network": "Convolutional Neural Network",
+            "cnn": "Convolutional Neural Network",
+
+            "recurrent neural network": "Recurrent Neural Network",
+            "rnn": "Recurrent Neural Network",
+
+            "long short term memory": "Long Short-Term Memory",
+            "long short-term memory": "Long Short-Term Memory",
+            "lstm": "Long Short-Term Memory",
+
+            "gated recurrent unit": "Gated Recurrent Unit",
+            "gru": "Gated Recurrent Unit",
+
+            "graph neural network": "Graph Neural Network",
+            "graph neural networks": "Graph Neural Network",
+            "gnn": "Graph Neural Network",
+
+            "transformer": "Transformer",
+            "vision transformer": "Vision Transformer",
+
+            "attention": "Attention",
+
+            "bert": "BERT",
+            "gpt": "GPT",
+
+            # -------------------------------------------------
+            # Optimization
+            # -------------------------------------------------
+
+            "gradient descent": "Gradient Descent",
+
+            "stochastic gradient descent": "Stochastic Gradient Descent",
+
+            "adam": "Adam Optimizer",
+
+            "dropout": "Dropout",
+
+            "backpropagation": "Backpropagation",
+
+            # -------------------------------------------------
+            # Model Evaluation
+            # -------------------------------------------------
+
+            "feature engineering": "Feature Engineering",
+
+            "feature selection": "Feature Selection",
+
+            "feature scaling": "Feature Scaling",
+
+            "cross validation": "Cross Validation",
+            "cross-validation": "Cross Validation",
+
+            "train test split": "Train Test Split",
+
+            "confusion matrix": "Confusion Matrix",
+
+            "precision": "Precision",
+
+            "recall": "Recall",
+
+            "roc curve": "ROC Curve",
+
+            "auc": "AUC",
+
+            "overfitting": "Overfitting",
+
+            "underfitting": "Underfitting",
+
+            "bias variance": "Bias Variance Tradeoff",
+
+            "bias variance tradeoff": "Bias Variance Tradeoff",
+
+            "ensemble learning": "Ensemble Learning",
+
+            "bagging": "Bagging",
+
+            "boosting": "Boosting",
+
+            "l1 regularization": "L1 Regularization",
+
+            "l2 regularization": "L2 Regularization",
+
+            # -------------------------------------------------
+            # Modern AI / RAG
+            # -------------------------------------------------
+
+            "retrieval augmented generation": "Retrieval Augmented Generation",
+            "retrieval-augmented generation": "Retrieval Augmented Generation",
+            "rag": "Retrieval Augmented Generation",
+
+            "knowledge graph": "Knowledge Graph",
+
+            "graph guided rag": "Graph Guided RAG",
+            "graph-guided rag": "Graph Guided RAG",
+
+            "adaptive learning": "Adaptive Learning",
+
+            "dense retrieval": "Dense Retrieval",
+
+            "sparse retrieval": "Sparse Retrieval",
+
+            "cosine similarity": "Cosine Similarity",
+
+            "euclidean distance": "Euclidean Distance",
+
+            "faiss": "FAISS",
+
+            "transfer learning": "Transfer Learning",
+
+            "xgboost": "XGBoost",
+
+            "lightgbm": "LightGBM"
+
+        }
+
         self.vocabulary = []
 
-        for concept in vocabulary:
+        seen = set()
 
-            if not self._is_valid_concept(concept):
-                continue
+        for concept in vocabulary:
 
             normalized = self._normalize(concept)
 
             if not normalized:
                 continue
 
+            if normalized in seen:
+                continue
+
+            seen.add(normalized)
+
             self.vocabulary.append(
-                (
-                    concept,
-                    normalized
-                )
+
+                (concept, normalized)
+
             )
 
-        # Longest concepts first
         self.vocabulary.sort(
+
             key=lambda item: len(item[1]),
+
             reverse=True
+
         )
 
     @staticmethod
     def _normalize(text):
 
         text = text.lower()
+
+        text = text.replace("-", " ")
 
         text = re.sub(r"[^\w\s]", " ", text)
 
@@ -58,79 +220,92 @@ class QueryConceptExtractor:
         return text.strip()
 
     @staticmethod
-    def _is_valid_concept(concept):
-        """
-        Remove obvious garbage from the graph.
-        """
+    def _plural_to_singular(text):
 
-        concept = concept.strip()
+        words = []
 
-        if len(concept) < 3:
-            return False
+        for word in text.split():
 
-        # Reject concepts without letters
-        if not re.search(r"[A-Za-z]", concept):
-            return False
+            if len(word) > 3 and word.endswith("s"):
 
-        # Reject drawing characters
-        if any(ch in concept for ch in "│├└┐┌─═╔╗╚╝"):
-            return False
+                word = word[:-1]
 
-        # Reject punctuation-only strings
-        if re.fullmatch(r"[\W_]+", concept):
-            return False
+            words.append(word)
 
-        return True
+        return " ".join(words)
 
     def extract(self, query):
 
-        normalized_query = self._normalize(query)
+        query = self._normalize(query)
 
-        matches = []
+        query = self._plural_to_singular(query)
+
+        detected = []
 
         occupied = []
 
-        for original, normalized in self.vocabulary:
+        # ---------------------------------
+        # Alias Matching
+        # ---------------------------------
 
-            pattern = r"\b" + re.escape(normalized) + r"\b"
+        for alias, concept in self.aliases.items():
 
-            for match in re.finditer(pattern, normalized_query):
+            alias_norm = self._normalize(alias)
+
+            pattern = r"\b" + re.escape(alias_norm) + r"\b"
+
+            for match in re.finditer(pattern, query):
 
                 start, end = match.span()
 
-                # Skip overlaps with longer concepts
                 overlap = False
 
                 for s, e in occupied:
 
                     if start < e and end > s:
+
                         overlap = True
+
                         break
 
                 if overlap:
                     continue
 
                 occupied.append((start, end))
-                matches.append(
-                    (
-                        start,
-                        original
-                    )
-                )
 
-        # Preserve query order
-        matches.sort(key=lambda x: x[0])
+                if concept not in detected:
 
-        detected = []
+                    detected.append(concept)
 
-        seen = set()
+        # ---------------------------------
+        # Vocabulary Matching
+        # ---------------------------------
 
-        for _, concept in matches:
+        for original, normalized in self.vocabulary:
 
-            if concept not in seen:
+            pattern = r"\b" + re.escape(normalized) + r"\b"
 
-                seen.add(concept)
+            for match in re.finditer(pattern, query):
 
-                detected.append(concept)
+                start, end = match.span()
+
+                overlap = False
+
+                for s, e in occupied:
+
+                    if start < e and end > s:
+
+                        overlap = True
+
+                        break
+
+                if overlap:
+                    continue
+
+                occupied.append((start, end))
+
+                if original not in detected:
+
+                    detected.append(original)
 
         return detected

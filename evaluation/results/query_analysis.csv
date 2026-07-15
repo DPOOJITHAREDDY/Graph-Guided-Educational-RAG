@@ -1,0 +1,61 @@
+id,question,expected_intent,predicted_intent,expected_difficulty,predicted_difficulty,expected_concepts,predicted_concepts,intent_correct,difficulty_correct,exact_match
+1,Explain Random Forest in simple terms.,explain,explain,beginner,beginner,random forest,random forest,True,True,True
+2,What is Machine Learning for a beginner?,definition,definition,beginner,beginner,machine learning,machine learning,True,True,True
+3,Define Decision Tree in simple words.,definition,definition,beginner,beginner,decision tree,decision tree,True,True,True
+4,Explain K-Means clustering in simple terms.,explain,explain,beginner,beginner,k means,k mean,True,True,False
+5,What is supervised learning in simple words?,definition,definition,beginner,beginner,supervised learning,supervised learning,True,True,True
+6,What is unsupervised learning for beginners?,definition,definition,beginner,beginner,unsupervised learning,unsupervised learning,True,True,True
+7,Explain Linear Regression in simple terms.,explain,explain,beginner,beginner,linear regression,regression,True,True,False
+8,Define Logistic Regression in simple words.,definition,definition,beginner,beginner,logistic regression,regression,True,True,False
+9,Explain Support Vector Machine for beginners.,explain,explain,beginner,beginner,support vector machine,support vector machine,True,True,True
+10,What is a Neural Network in simple terms?,definition,definition,beginner,beginner,neural network,neural network,True,True,True
+11,Explain PCA in simple words.,explain,explain,beginner,beginner,principal component analysis,principal component analysis,True,True,True
+12,Define Classification in simple terms.,definition,definition,beginner,beginner,classification,classification,True,True,True
+13,What is Regression for beginners?,definition,definition,beginner,beginner,regression,regression,True,True,True
+14,Explain Feature Engineering in simple words.,explain,explain,beginner,beginner,feature engineering,feature engineering,True,True,True
+15,What is Overfitting in simple terms?,definition,definition,beginner,beginner,overfitting,,True,True,False
+16,What is Underfitting in simple words?,definition,definition,beginner,beginner,underfitting,,True,True,False
+17,Explain Cross Validation for beginners.,explain,explain,beginner,beginner,cross validation,,True,True,False
+18,Define Precision and Recall in simple terms.,definition,definition,beginner,beginner,"precision, recall",,True,True,False
+19,Explain Gradient Descent in simple words.,explain,explain,beginner,beginner,gradient descent,gradient descent,True,True,True
+20,What is a Confusion Matrix for beginners?,definition,definition,beginner,beginner,confusion matrix,confusion matrix,True,True,True
+1,Compare Random Forest and Decision Tree.,compare,compare,intermediate,intermediate,"decision tree, random forest","decision tree, random forest",True,True,True
+2,Compare supervised learning and unsupervised learning.,compare,compare,intermediate,intermediate,"supervised learning, unsupervised learning","supervised learning, unsupervised learning",True,True,True
+3,Explain why Random Forest reduces overfitting.,explain,explain,intermediate,intermediate,"overfitting, random forest",random forest,True,True,False
+4,Explain how Gradient Descent optimizes a model.,explain,explain,intermediate,intermediate,gradient descent,gradient descent,True,True,True
+5,Explain the bias variance tradeoff.,explain,explain,intermediate,intermediate,"bias, variance",,True,True,False
+6,Compare Precision and Recall.,compare,compare,intermediate,intermediate,"precision, recall",,True,True,False
+7,Explain why feature scaling is important for Support Vector Machine.,explain,explain,intermediate,intermediate,"feature scaling, support vector machine","feature scaling, support vector machine",True,True,True
+8,Explain the working of K-Means clustering.,explain,explain,intermediate,intermediate,k means,k mean,True,True,False
+9,Compare Principal Component Analysis and Linear Discriminant Analysis.,compare,compare,intermediate,intermediate,"linear discriminant analysis, principal component analysis",,True,True,False
+10,Explain why cross validation is used.,explain,explain,intermediate,intermediate,cross validation,,True,True,False
+11,Explain Ensemble Learning.,explain,explain,intermediate,intermediate,ensemble learning,ensemble learning,True,True,True
+12,Compare Bagging and Boosting.,compare,compare,intermediate,intermediate,"bagging, boosting","bagging, boosting",True,True,True
+13,Explain ROC Curve and AUC.,explain,explain,intermediate,intermediate,"auc, roc curve",roc curve,True,True,False
+14,Explain how Logistic Regression performs classification.,explain,explain,intermediate,intermediate,logistic regression,"classification, regression",True,True,False
+15,Explain Confusion Matrix with an example.,explain,example,intermediate,intermediate,confusion matrix,confusion matrix,False,True,False
+16,Compare L1 Regularization and L2 Regularization.,compare,compare,intermediate,intermediate,"l1 regularization, l2 regularization","l1 regularization, l2 regularization",True,True,True
+17,Explain Feature Selection techniques.,explain,explain,intermediate,intermediate,feature selection,feature selection,True,True,True
+18,Explain why Principal Component Analysis reduces dimensionality.,explain,explain,intermediate,intermediate,principal component analysis,,True,True,False
+19,Compare Regression and Classification.,compare,compare,intermediate,intermediate,"classification, regression","classification, regression",True,True,True
+20,Explain the importance of Train Test Split.,explain,explain,intermediate,intermediate,train test split,train test split,True,True,True
+1,"Compare Random Forest, XGBoost and LightGBM using advanced techniques.",compare,compare,advanced,advanced,"lightgbm, random forest, xgboost","advanced technique, random forest",True,True,False
+2,Explain the mathematical intuition behind Gradient Descent.,explain,explain,advanced,advanced,gradient descent,gradient descent,True,True,True
+3,Explain the mathematical proof of backpropagation in Neural Networks.,explain,explain,advanced,advanced,"backpropagation, neural network",neural network,True,True,False
+4,Compare Convolutional Neural Networks and Vision Transformers for advanced computer vision.,compare,compare,advanced,advanced,"convolutional neural network, vision transformer","neural network, transformer",True,True,False
+5,Explain the mathematical bias variance decomposition.,explain,explain,advanced,advanced,"bias, variance",,True,True,False
+6,Explain the mathematical intuition behind Dropout for reducing Overfitting.,explain,explain,advanced,advanced,"dropout, overfitting",,True,True,False
+7,Compare Adam Optimizer and Stochastic Gradient Descent using mathematical analysis.,compare,compare,advanced,advanced,"adam optimizer, stochastic gradient descent","adam optimizer, gradient descent",True,True,False
+8,Explain the research perspective of the Attention Mechanism in Transformers.,explain,explain,advanced,advanced,"attention mechanism, transformer","attention, transformer",True,True,False
+9,Compare BERT and GPT from a research perspective.,compare,compare,advanced,advanced,"bert, gpt",,True,True,False
+10,Explain advanced Transfer Learning techniques.,explain,explain,advanced,advanced,transfer learning,transfer learning,True,True,True
+11,"Compare RNN, LSTM and GRU using advanced sequence modeling concepts.",compare,compare,advanced,advanced,"gru, lstm, rnn","gated recurrent unit, long short term memory, recurrent neural network",True,True,False
+12,Explain the mathematical proof behind the Vanishing Gradient problem.,explain,explain,advanced,advanced,vanishing gradient,gradient,True,True,False
+13,Explain advanced Graph Neural Networks.,explain,explain,advanced,advanced,graph neural network,neural network,True,True,False
+14,Compare Cosine Similarity and Euclidean Distance mathematically.,compare,compare,advanced,advanced,"cosine similarity, euclidean distance","cosine similarity, euclidean distance",True,True,True
+15,Explain Retrieval Augmented Generation from a research perspective.,explain,explain,advanced,advanced,retrieval augmented generation,retrieval augmented generation,True,True,True
+16,Compare Dense Retrieval and Sparse Retrieval using advanced retrieval techniques.,compare,compare,advanced,advanced,"dense retrieval, sparse retrieval","dense retrieval, sparse retrieval",True,True,True
+17,Explain FAISS indexing using advanced concepts.,explain,explain,advanced,advanced,faiss,,True,True,False
+18,Explain how a Knowledge Graph improves Retrieval Augmented Generation from a research perspective.,explain,explain,advanced,advanced,"knowledge graph, retrieval augmented generation","knowledge graph, retrieval augmented generation",True,True,True
+19,Explain advanced Adaptive Learning systems.,explain,explain,advanced,advanced,adaptive learning,adaptive learning,True,True,True
+20,Compare traditional Retrieval Augmented Generation and Graph Guided Retrieval Augmented Generation using advanced concepts.,compare,compare,advanced,advanced,"knowledge graph, retrieval augmented generation",retrieval augmented generation,True,True,False

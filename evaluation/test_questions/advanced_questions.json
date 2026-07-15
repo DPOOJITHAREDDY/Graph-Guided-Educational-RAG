@@ -1,0 +1,197 @@
+[
+    {
+        "id": 1,
+        "question": "Compare Random Forest, XGBoost and LightGBM using advanced techniques.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Random Forest",
+            "XGBoost",
+            "LightGBM"
+        ]
+    },
+    {
+        "id": 2,
+        "question": "Explain the mathematical intuition behind Gradient Descent.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Gradient Descent"
+        ]
+    },
+    {
+        "id": 3,
+        "question": "Explain the mathematical proof of backpropagation in Neural Networks.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Backpropagation",
+            "Neural Network"
+        ]
+    },
+    {
+        "id": 4,
+        "question": "Compare Convolutional Neural Networks and Vision Transformers for advanced computer vision.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Convolutional Neural Network",
+            "Vision Transformer"
+        ]
+    },
+    {
+        "id": 5,
+        "question": "Explain the mathematical bias variance decomposition.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Bias",
+            "Variance"
+        ]
+    },
+    {
+        "id": 6,
+        "question": "Explain the mathematical intuition behind Dropout for reducing Overfitting.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Dropout",
+            "Overfitting"
+        ]
+    },
+    {
+        "id": 7,
+        "question": "Compare Adam Optimizer and Stochastic Gradient Descent using mathematical analysis.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Adam Optimizer",
+            "Stochastic Gradient Descent"
+        ]
+    },
+    {
+        "id": 8,
+        "question": "Explain the research perspective of the Attention Mechanism in Transformers.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Attention Mechanism",
+            "Transformer"
+        ]
+    },
+    {
+        "id": 9,
+        "question": "Compare BERT and GPT from a research perspective.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "BERT",
+            "GPT"
+        ]
+    },
+    {
+        "id": 10,
+        "question": "Explain advanced Transfer Learning techniques.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Transfer Learning"
+        ]
+    },
+    {
+        "id": 11,
+        "question": "Compare RNN, LSTM and GRU using advanced sequence modeling concepts.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "RNN",
+            "LSTM",
+            "GRU"
+        ]
+    },
+    {
+        "id": 12,
+        "question": "Explain the mathematical proof behind the Vanishing Gradient problem.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Vanishing Gradient"
+        ]
+    },
+    {
+        "id": 13,
+        "question": "Explain advanced Graph Neural Networks.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Graph Neural Network"
+        ]
+    },
+    {
+        "id": 14,
+        "question": "Compare Cosine Similarity and Euclidean Distance mathematically.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Cosine Similarity",
+            "Euclidean Distance"
+        ]
+    },
+    {
+        "id": 15,
+        "question": "Explain Retrieval Augmented Generation from a research perspective.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Retrieval Augmented Generation"
+        ]
+    },
+    {
+        "id": 16,
+        "question": "Compare Dense Retrieval and Sparse Retrieval using advanced retrieval techniques.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Dense Retrieval",
+            "Sparse Retrieval"
+        ]
+    },
+    {
+        "id": 17,
+        "question": "Explain FAISS indexing using advanced concepts.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "FAISS"
+        ]
+    },
+    {
+        "id": 18,
+        "question": "Explain how a Knowledge Graph improves Retrieval Augmented Generation from a research perspective.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Knowledge Graph",
+            "Retrieval Augmented Generation"
+        ]
+    },
+    {
+        "id": 19,
+        "question": "Explain advanced Adaptive Learning systems.",
+        "expected_intent": "explain",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Adaptive Learning"
+        ]
+    },
+    {
+        "id": 20,
+        "question": "Compare traditional Retrieval Augmented Generation and Graph Guided Retrieval Augmented Generation using advanced concepts.",
+        "expected_intent": "compare",
+        "expected_difficulty": "advanced",
+        "expected_concepts": [
+            "Retrieval Augmented Generation",
+            "Knowledge Graph"
+        ]
+    }
+]

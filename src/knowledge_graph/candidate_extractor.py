@@ -2,29 +2,111 @@
 candidate_extractor.py
 
 Generates candidate educational concepts from text.
-This module DOES NOT decide whether something is a concept.
-It only generates high-quality candidates.
+
+This module maximizes concept recall while filtering
+obvious textbook metadata and structural noise.
 """
 
 import re
+
 import spacy
 
 
 class CandidateExtractor:
 
+    MAX_PHRASE_LENGTH = 6
+
     def __init__(self):
 
         self.nlp = spacy.load("en_core_web_sm")
 
+        self.metadata_words = {
+
+            "author",
+            "publisher",
+            "copyright",
+            "edition",
+            "cover",
+            "preface",
+            "appendix",
+            "chapter",
+            "isbn",
+            "index",
+            "editor",
+            "designer",
+            "proofreader",
+            "copyeditor",
+            "illustrator",
+            "revision",
+            "history",
+            "trademark",
+            "license",
+            "department",
+            "address",
+            "street",
+            "media",
+            "inc",
+            "corporate",
+            "sale"
+
+        }
+
+        self.ml_acronyms = {
+
+            "CNN",
+            "RNN",
+            "LSTM",
+            "GRU",
+            "GAN",
+            "SVM",
+            "PCA",
+            "LDA",
+            "KNN",
+            "RAG",
+            "GPT",
+            "BERT",
+            "ROC",
+            "AUC",
+            "FAISS"
+
+        }
+
     def clean_text(self, text):
 
-        # Remove URLs
         text = re.sub(r"http\S+", " ", text)
 
-        # Remove multiple spaces
+        text = re.sub(r"\S+@\S+", " ", text)
+
+        text = text.replace("_", " ")
+
         text = re.sub(r"\s+", " ", text)
 
         return text.strip()
+
+    def _valid_phrase(self, phrase):
+
+        phrase = phrase.strip()
+
+        if len(phrase) < 3:
+            return False
+
+        words = phrase.split()
+
+        if len(words) > self.MAX_PHRASE_LENGTH:
+            return False
+
+        if phrase.isnumeric():
+            return False
+
+        lower = phrase.lower()
+
+        if any(word in lower for word in self.metadata_words):
+            return False
+
+        if re.fullmatch(r"[\W_]+", phrase):
+            return False
+
+        return True
 
     def extract(self, text):
 
@@ -34,33 +116,68 @@ class CandidateExtractor:
 
         candidates = set()
 
-        # -----------------------------
-        # 1. Noun Chunks
-        # -----------------------------
+        # ---------------------------------------
+        # Acronyms
+        # ---------------------------------------
+
+        for token in doc:
+
+            if token.text.upper() in self.ml_acronyms:
+
+                candidates.add(token.text.upper())
+
+        # ---------------------------------------
+        # Noun Chunks
+        # ---------------------------------------
+
         for chunk in doc.noun_chunks:
+
+            if chunk.root.pos_ == "PRON":
+                continue
 
             phrase = chunk.text.strip()
 
-            if len(phrase) > 2:
+            if self._valid_phrase(phrase):
+
                 candidates.add(phrase)
 
-        # -----------------------------
-        # 2. Named Entities
-        # -----------------------------
+        # ---------------------------------------
+        # Named Entities
+        # ---------------------------------------
+
         for ent in doc.ents:
 
-            if len(ent.text) > 2:
-                candidates.add(ent.text)
+            phrase = ent.text.strip()
 
-        # -----------------------------
-        # 3. Compound Nouns
-        # -----------------------------
-        for token in doc:
-
-            if token.dep_ == "compound":
-
-                phrase = token.text + " " + token.head.text
+            if self._valid_phrase(phrase):
 
                 candidates.add(phrase)
+
+        # ---------------------------------------
+        # Compound Nouns
+        # ---------------------------------------
+
+        for token in doc:
+
+            if token.dep_ != "compound":
+                continue
+
+            phrase = f"{token.text} {token.head.text}"
+
+            if self._valid_phrase(phrase):
+
+                candidates.add(phrase)
+
+        # ---------------------------------------
+        # Hyphenated Technical Terms
+        # ---------------------------------------
+
+        for token in doc:
+
+            if "-" in token.text:
+
+                if self._valid_phrase(token.text):
+
+                    candidates.add(token.text)
 
         return sorted(candidates)

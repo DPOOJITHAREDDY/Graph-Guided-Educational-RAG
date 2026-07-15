@@ -1,0 +1,6 @@
+question,overall_score,understanding_score,coverage_score,grounding_score,confidence_score,difficulty_alignment_score,strengths,weak_concepts,covered_concepts,missing_concepts,recommended_review,next_learning_topics,feedback,should_review
+Explain Random Forest in simple terms.,0.8411,1.0,1.0,0.5556,0.95,0.7,Random Forest,,Random Forest,,,"Building Block, Category, Classification, Collection, Dataset",Learning objective achieved.,False
+Compare Precision and Recall.,0.9033,1.0,1.0,0.6667,0.85,1.0,,,,,,,Learning objective achieved.,False
+Explain why feature scaling is important for Support Vector Machine.,0.89,1.0,1.0,0.5,0.95,1.0,"Support Vector Machine, Feature Scaling",,"Support Vector Machine, Feature Scaling",,,"Common, Complex Model, Complexity, Contrast, Gradient Boosted Model",Learning objective achieved.,False
+Explain Retrieval Augmented Generation from a research perspective.,0.8384,1.0,1.0,0.3421,0.85,1.0,Retrieval Augmented Generation,,Retrieval Augmented Generation,,,,Learning objective achieved.,False
+Explain how a Knowledge Graph improves Retrieval Augmented Generation from a research perspective.,0.8183,1.0,1.0,0.2414,0.85,1.0,"Retrieval Augmented Generation, Knowledge Graph",,"Retrieval Augmented Generation, Knowledge Graph",,,,Learning objective achieved.,False

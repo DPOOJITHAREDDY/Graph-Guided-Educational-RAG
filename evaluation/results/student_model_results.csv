@@ -1,0 +1,26 @@
+concept,attempt,correct,mastery,confidence,total_attempts,correct_answers,incorrect_answers
+Random Forest,1,True,0.1,0.46,1,1,0
+Random Forest,2,True,0.19,0.514,2,2,0
+Random Forest,3,False,0.1615,0.3636,3,2,1
+Random Forest,4,True,0.24535,0.4472,4,3,1
+Random Forest,5,True,0.320815,0.5125,5,4,1
+Decision Tree,1,True,0.1,0.46,1,1,0
+Decision Tree,2,True,0.19,0.514,2,2,0
+Decision Tree,3,False,0.1615,0.3636,3,2,1
+Decision Tree,4,True,0.24535,0.4472,4,3,1
+Decision Tree,5,True,0.320815,0.5125,5,4,1
+Support Vector Machine,1,True,0.1,0.46,1,1,0
+Support Vector Machine,2,True,0.19,0.514,2,2,0
+Support Vector Machine,3,False,0.1615,0.3636,3,2,1
+Support Vector Machine,4,True,0.24535,0.4472,4,3,1
+Support Vector Machine,5,True,0.320815,0.5125,5,4,1
+Neural Network,1,True,0.1,0.46,1,1,0
+Neural Network,2,True,0.19,0.514,2,2,0
+Neural Network,3,False,0.1615,0.3636,3,2,1
+Neural Network,4,True,0.24535,0.4472,4,3,1
+Neural Network,5,True,0.320815,0.5125,5,4,1
+Gradient Descent,1,True,0.1,0.46,1,1,0
+Gradient Descent,2,True,0.19,0.514,2,2,0
+Gradient Descent,3,False,0.1615,0.3636,3,2,1
+Gradient Descent,4,True,0.24535,0.4472,4,3,1
+Gradient Descent,5,True,0.320815,0.5125,5,4,1
