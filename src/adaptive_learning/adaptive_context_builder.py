@@ -37,8 +37,7 @@ class AdaptiveContextBuilder:
         Lightweight concept extraction from retrieved text.
 
         This is intentionally simple because the
-        retrieved concepts are only used for
-        reflection and evaluation.
+        retrieved concepts are only used for reflection and evaluation.
         """
 
         candidates = set()
@@ -109,11 +108,13 @@ class AdaptiveContextBuilder:
 
             for concept in query_analysis.concepts:
 
-                if concept not in self.graph.graph:
+                if not self.graph.has_concept(concept):
 
                     continue
 
-                for neighbor in self.graph.graph.neighbors(concept):
+                neighbors = self.graph.get_learning_neighbors(concept)
+
+                for neighbor, weight in neighbors:
 
                     if neighbor in seen:
 
